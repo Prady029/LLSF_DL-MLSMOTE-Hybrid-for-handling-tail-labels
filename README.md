@@ -12,3 +12,5 @@ to improve learning, oversampling algorithm MLSMOTE is employed on tail instance
 generate new labeled instances in-situ for our base classifier LLSF-DL which is retrained
 on the modified dataset. This provides a standalone solution for learning of the classifier
 taking care of class imbalance along the way.
+
+> ![flow](flowchart.jpg)
