@@ -1,0 +1,23 @@
+# MATLAB files
+*.asv
+*.m~
+
+# Results and output files
+results_*.mat
+evaluation_results_*.mat
+evaluation_report_*.txt
+performance_results.png
+synthetic_demo_dataset.mat
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Backup and temporary files
+*~
+*.bak
+*.swp
+*.tmp
+
+# MATLAB autosave and crash dumps
+matlab_crash_dump*

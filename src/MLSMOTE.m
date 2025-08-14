@@ -1,4 +1,30 @@
 function [train_data, train_target]=MLSMOTE(X,L,Y,a)
+% MLSMOTE - Multi-Label Synthetic Minority Oversampling Technique
+%
+% This function generates synthetic samples for minority class instances
+% using the SMOTE algorithm adapted for multi-label classification.
+%
+% Inputs:
+%   X - Feature matrix (n_samples x n_features)
+%   L - Label index to oversample
+%   Y - Label matrix (n_samples x n_labels)  
+%   a - Number of synthetic samples to generate per minority instance
+%
+% Outputs:
+%   train_data - Generated synthetic feature vectors
+%   train_target - Corresponding synthetic labels
+%
+% Reference: Charte et al. "MLSMOTE: Approaching imbalanced multilabel 
+% learning through synthetic instance generation" (2015)
+
+% Validate inputs
+if nargin < 4
+    error('MLSMOTE:InvalidInput', 'All four arguments are required');
+end
+if L < 1 || L > size(Y, 2)
+    error('MLSMOTE:InvalidLabel', 'Label index L must be between 1 and number of labels');
+end
+
 % for each label in L do
 Data=[X Y];
 k=5;
