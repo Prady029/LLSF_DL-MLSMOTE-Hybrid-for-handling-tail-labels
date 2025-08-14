@@ -10,82 +10,90 @@ Labels with very few instances to learn from, called **tail-labels**, are a crit
 
 ![flow](flowchart.jpg)
 
-## 🚀 Quick Start
+# LLSF-DL MLSMOTE Hybrid for Handling Tail Labels
 
-### Prerequisites
+> **Masters' thesis implementation with codes and datasets** 🤓  
+> **Now available in both MATLAB and Python** 🐍
 
-- MATLAB R2018b or later
-- Statistics and Machine Learning Toolbox
+## Abstract
 
-### Dataset Setup
+![tail](tail_label.bmp)
 
-1. Ensure your datasets are placed in the `Datasets/` folder
-2. Supported datasets:
-   - `genbase.mat`
-   - `emotions.mat` 
-   - `rcv1-sample1.mat`
-   - `recreation.mat`
+Labels with very few instances to learn from, called **tail-labels**, are a critical problem in multi-label classification that has garnered recent attention among researchers. This repository implements a hybrid approach that employs the MLSMOTE oversampling algorithm on tail instances to generate new labeled instances in-situ for the base classifier LLSF-DL, which is then retrained on the modified dataset. This provides a standalone solution for learning that takes care of class imbalance.
+
+![flow](flowchart.jpg)
 
 ## 🚀 Quick Start
 
-### Prerequisites
+Choose your preferred implementation:
 
-- MATLAB R2018b or later
-- Statistics and Machine Learning Toolbox
+### 🐍 Python Implementation (Recommended)
 
-### Installation & Validation
+**Prerequisites:**
+- Python 3.8+
+- NumPy, SciPy, scikit-learn
 
-1. Clone the repository
-2. Ensure datasets are in the `Datasets/` folder
-3. Validate installation:
-```matlab
-cd Matlab_Code/
-test_codebase()    % Validates all components
+**Quick Setup:**
+```bash
+cd python_src
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install numpy scipy scikit-learn pandas matplotlib seaborn tqdm
 ```
 
-### Running Experiments
+**Run Tests:**
+```bash
+python evaluate.py --test
+```
 
+**Quick Evaluation:**
+```bash
+python evaluate.py --quick demo minority
+```
+
+### 🔬 MATLAB Implementation (Original)
+
+**Prerequisites:**
+- MATLAB R2018b or later
+- Statistics and Machine Learning Toolbox
+
+**Setup:**
 ```matlab
-cd Matlab_Code/
-
-% See quick start guide
-QUICK_START_GUIDE  % Interactive examples
-
-% Basic usage
-quick_eval()                    % Run on genbase, both methods
-quick_eval(2, 'minority')       % Emotions dataset, minority labels only
-quick_eval('all', 'both')       % All datasets, compare both methods
-
-% Test with synthetic data (no datasets required)
-quick_eval('demo')
-
-% Advanced evaluation with full control
-evaluate_llsf_mlsmote(1, {'all', 'minority'})
+cd src/
+test_codebase()    % Validates all components
+quick_eval()       % Quick evaluation
 ```
 
 ## 📁 Repository Structure
 
 ```
-├── Datasets/                   # Dataset files (.mat format)
-│   ├── genbase.mat
-│   ├── emotions.mat
-│   ├── rcv1-sample1.mat
-│   └── recreation.mat
-├── Matlab_Code/               # Core implementation
-│   ├── evaluate_llsf_mlsmote.m  # Main evaluation script
-│   ├── quick_eval.m          # Simple evaluation interface  
-│   ├── test_codebase.m       # Validation script
-│   ├── QUICK_START_GUIDE.m   # Interactive usage examples
-│   ├── config.m              # Configuration settings
-│   ├── plot_results.m        # Result visualization
-│   ├── MLSMOTE.m            # MLSMOTE algorithm
-│   ├── Imbalance_ratio.m    # Imbalance calculation
-│   ├── kfoldpartation.m     # Cross-validation utility
+├── python_src/                    # 🐍 Python Implementation
+│   ├── algorithms/
+│   │   ├── llsf_dl.py            # LLSF-DL algorithm
+│   │   └── mlsmote.py            # MLSMOTE algorithm
+│   ├── utils/
+│   │   ├── data_utils.py         # Data loading & processing
+│   │   └── evaluation.py         # Evaluation metrics
+│   ├── config.py                 # Configuration settings
+│   ├── evaluate.py               # Main evaluation interface
+│   ├── hybrid_approach.py        # Hybrid LLSF-DL + MLSMOTE
+│   └── README.md                 # Python-specific documentation
+├── src/                          # 🔬 Original MATLAB Implementation
+│   ├── evaluate_llsf_mlsmote.m   # Main evaluation script
+│   ├── quick_eval.m              # Simple evaluation interface  
+│   ├── test_codebase.m           # Validation script
+│   ├── QUICK_START_GUIDE.m       # Interactive usage examples
+│   ├── config.m                  # Configuration settings
+│   ├── plot_results.m            # Result visualization
+│   ├── MLSMOTE.m                 # MLSMOTE algorithm
+│   ├── Imbalance_ratio.m         # Imbalance calculation
+│   ├── kfoldpartation.m          # Cross-validation utility
 │   └── LLSF_DL_TKDE2016-Public/  # LLSF-DL implementation
-├── README.md                  # Project documentation
-├── LICENSE                   # License information
-├── flowchart.jpg            # Algorithm flowchart
-└── tail_label.bmp           # Tail label illustration
+├── results/                      # Generated experiment results
+├── README.md                     # Project documentation
+├── LICENSE                       # License information
+├── flowchart.jpg                # Algorithm flowchart
+└── tail_label.bmp               # Tail label illustration
 ```
 
 ### Supported Datasets

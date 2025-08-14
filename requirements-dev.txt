@@ -1,0 +1,18 @@
+# Include base requirements
+-r requirements.txt
+
+# Development and testing
+pytest>=6.0.0
+pytest-cov>=2.12.0
+black>=21.0.0
+flake8>=3.9.0
+mypy>=0.910
+isort>=5.9.0
+
+# Jupyter for development
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Documentation
+sphinx>=4.0.0
+sphinx-rtd-theme>=0.5.0

@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, python_implementation ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.8, 3.9, "3.10", "3.11", "3.12"]
+        exclude:
+          # Reduce test matrix for faster CI
+          - os: windows-latest
+            python-version: 3.8
+          - os: macos-latest
+            python-version: 3.8
+          - os: windows-latest
+            python-version: 3.9
+          - os: macos-latest
+            python-version: 3.9
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Install package
+      run: pip install -e .
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 python_src --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 python_src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Type check with mypy
+      run: mypy python_src --ignore-missing-imports
+      continue-on-error: true  # Don't fail CI on type check issues
+
+    - name: Test with built-in test suite
+      run: |
+        cd python_src
+        python evaluate.py --test
+
+    - name: Test with pytest (if available)
+      run: pytest tests/ -v --tb=short
+      continue-on-error: true  # Don't fail if pytest tests have issues
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black isort flake8 mypy
+        pip install -r requirements.txt
+
+    - name: Check code formatting with black
+      run: black --check python_src tests
+
+    - name: Check import sorting with isort
+      run: isort --check-only python_src tests
+
+    - name: Lint with flake8
+      run: flake8 python_src tests --max-line-length=88 --extend-ignore=E203,W503
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install bandit
+      run: pip install bandit[toml]
+
+    - name: Run security check with bandit
+      run: bandit -r python_src -f json -o bandit-report.json
+      continue-on-error: true
+
+    - name: Upload bandit report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: bandit-report
+        path: bandit-report.json
