@@ -160,7 +160,7 @@ If you use this code in your research, please cite:
 @mastersthesis{LLSF_MLSMOTE_Hybrid],
     title={LLSF-DL MLSMOTE Hybrid for Handling Tail Labels},
     author={Pradyumna Kumar sahoo},
-    year={2024},
+    year={2020},
     school={Central University of Rajasthan},
     url = {https://1drv.ms/f/c/874353e620bf6fff/EvJ64XazvWpDs5V8bnOSqQwBkQ9BlTRFJU6rqrNV9iXbsQ?e=bAGCsm}
 }
