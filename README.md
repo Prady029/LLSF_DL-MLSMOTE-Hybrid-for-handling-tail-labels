@@ -1,17 +1,5 @@
 # LLSF-DL MLSMOTE Hybrid for Handling Tail Labels
 
-> **Masters' thesis implementation with codes and datasets** 🤓
-
-## Abstract
-
-![tail](tail_label.bmp)
-
-Labels with very few instances to learn from, called **tail-labels**, are a critical problem in multi-label classification that has garnered recent attention among researchers. This repository implements a hybrid approach that employs the MLSMOTE oversampling algorithm on tail instances to generate new labeled instances in-situ for the base classifier LLSF-DL, which is then retrained on the modified dataset. This provides a standalone solution for learning that takes care of class imbalance.
-
-![flow](flowchart.jpg)
-
-# LLSF-DL MLSMOTE Hybrid for Handling Tail Labels
-
 > **Masters' thesis implementation with codes and datasets** 🤓  
 > **Now available in both MATLAB and Python** 🐍
 
@@ -169,11 +157,12 @@ Key Performance Metrics (Final Iteration):
 If you use this code in your research, please cite:
 
 ```bibtex
-@mastersthesis{your_thesis,
+@mastersthesis{LLSF_MLSMOTE_Hybrid],
     title={LLSF-DL MLSMOTE Hybrid for Handling Tail Labels},
-    author={Your Name},
+    author={Pradyumna Kumar sahoo},
     year={2024},
-    school={Your University}
+    school={Central University of Rajasthan},
+    url = {https://1drv.ms/f/c/874353e620bf6fff/EvJ64XazvWpDs5V8bnOSqQwBkQ9BlTRFJU6rqrNV9iXbsQ?e=bAGCsm}
 }
 ```
 
